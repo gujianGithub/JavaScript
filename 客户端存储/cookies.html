@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>客户端存储和获取cookies</title>
+    <script type="text/javascript">
+		window.onload=function(){
+            //保存一个新的cookie
+            setcookies("version",document.lastModified,1);
+            //读取cookie
+            console.log(getCookie());
+        }
+        //设置了此cookie对象的有效期（如果要设置此cookie的path,domain,secure属性,字符串累加）
+        function setcookies(name,value,daysToLive){
+            var cookie =name+"="+encodeURIComponent(value);
+            if(typeof daysToLive === "number")
+            cookie+=";max-age="+(daysToLive*60*60*24);
+            document.cookie =cookie;
+        }
+        //读取cookie
+        function getCookie(){
+            var cookie={};
+            var all = document.cookie;
+           // console.log(all);
+            if(all === "") return cookie;
+            var list = all.split(";");
+            for(var i=0;i<list.length;i++){
+                var cookie =list[i];
+                var p =cookie.indexOf("=");
+                var name =cookie.substring(0,p);
+                var value = cookie.substring(p+1);
+                value = decodeURIComponent(value);
+                cookie[name]=value;
+            }
+            return cookie;
+        }
+	</script>
+</head>
+<body>
+
+</body>
+</html>
