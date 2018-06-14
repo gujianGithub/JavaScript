@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>let代码块变量</title>
+    <script type="text/javascript">
+		window.onload=function()
+		{
+        //      var a =[];
+        //      for(var i=0;i<10;i++){
+        //          a[i] =function(){    //全局变量i最终的值为10
+        //              console.log(i);
+        //          }
+        //      }
+        //     a[6]();
+
+        //    var b =[];
+        //     for(let i=0;i<10;i++){
+        //         b[i] =function(){    //全局变量i最终的值为10
+        //             console.log(i);
+        //         }
+        //     }
+        //     b[6]();
+            var i=0;
+            forFunction(0);
+            function forFunction(i){
+                if(i<10){   
+                        forFunction[i] = i;
+                        ++i;
+                        forFunction(i);
+                    }else{
+                        console.error("超出索引范围");
+                    }
+            }
+            console.log(i);
+		};
+	</script>
+</head>
+<body>
+<div style="width:100%;text-align:center">
+   
+</div>
+</body>
+</html>

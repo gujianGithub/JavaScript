@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>闭包(前提了解作用域和作用域链)</title>
+    <script type="text/javascript" src="../common.js"></script>
+    <script type="text/javascript">
+        var aaa = "aaa"; //作用域为全局对象 [{aaa=''}]
+		window.onload=function(){
+            start();
+        }
+
+        function start(){
+            var bbb ="bbb"; //作用域链包括全局对象和本函数对象 [{aaa='aaa'},{bbb='',aaa=''}]
+            console.log(aaa); //此时的变量aaa已经在本函数的作用域中，因为就近优先原则且未赋值,这个值为 undefined
+            var aaa = "aaa";
+            function end1(){ //作用域链包括全局对象和所在函数对象以及本函数对象 [{aaa='aaa'},{bbb='',aaa=''},{ccc=''}]
+                var ccc ="ccc";//有返回值或者作为函数属性，调用后垃圾不回收
+                return ccc;
+            }
+            var end2 = function end2(){ //保存到变量中，无返回值或者作为函数属性，调用后自动垃圾回收掉。
+                var ccc ="ccc";
+            }
+            return end1;
+        }
+        console.log(start()()); //此值为ccc，因为调用end1的时候，end1的作用域链没有回收。
+       
+	</script>
+</head>
+<body>
+
+</body>
+</html>
