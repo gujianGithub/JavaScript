@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>创建对象的几种方式分析</title>
+    <script type="text/javascript" src="../common.js"></script>
+    <script type="text/javascript">
+        var aaa = "aaa"; //作用域为全局对象 [{aaa=''}]
+		window.onload=function(){
+            start();
+        }
+        function start(){
+              //1.原始模式，对象字面量方式
+              var person ={
+                name:'小贱贱',
+                age:24,
+                playBaseketball:function(){
+                    alert("小贱贱喜欢打篮球");
+                }
+            };
+            //1.原始模式，Object作为构造函数
+                var person =new Object();
+                person.name = "小贱贱";
+                person.age=24,
+                person.playBaseketball=function(){
+                    alert("小贱贱喜欢打篮球");
+                }
+            /*
+                当我们要写很多个person对象时（person1，person2....），需要重复很多遍。所以出来了以下的工厂模式。
+            */
+
+            //2.工厂模式（一个接口，方便）
+            function createPerson(name,age){
+                var person = new Object();
+                person.name=name;
+                person.age =age;
+                person.playBaseketball=function(){
+                    alert("小贱贱喜欢打篮球");
+                }
+                return person;
+            }
+                var p1 = createPerson('小贱贱',24);
+                var p2 = createPerson('小涛涛',24);
+                /*
+                    工厂用来批量生产，但是不能知道返回对象的类型，所以构造函数出现了
+                */
+
+            //3.构造函数，给对象定义一个构造函数
+            function createPerson(name,age){
+                this.name=name;
+                this.age =age;
+                this.playBaseketball=function(){
+                    alert("小贱贱喜欢打篮球");
+                }
+                return person;
+            }
+                var p3 = new createPerson('小贱贱',24);
+                var p4 = new createPerson('小涛涛',24);
+                /*
+                    实例化一个对象，构造函数中this指向实例化的对象。类型为createPerson.
+                    但是实例化多了,每次构造函数中定义的公用方法 playBaseketball多了，浪费内存。所有有了原型模式
+                */
+            
+            //4.原型模式，直接定义prototype属性
+            function person(){};
+            person.prototype.name='小贱贱';
+            person.prototype.age=24;
+            person.prototype.playBaseketball=function(){
+                    alert("小贱贱喜欢打篮球");
+            }
+            //4.原型模式，字面量定义方式
+            function person(){};
+            person.prototype={
+                name:'小贱贱',
+                age:24,
+                playBaseketball:function(){
+                    alert("小贱贱喜欢打篮球");
+                }
+            }
+                var p5 = new person();
+                p5.playBaseketball;//小贱贱喜欢打篮球
+                var p6 = new person();
+                p6.playBaseketball;//小贱贱喜欢打篮球
+            /*
+                构造函数为空，所以都引用原型里的属性，值一样。所有只要原型里的值发生变化，所有实例中也发生变化。
+                为了避免这个弊端，所以采用混合模式（构造+原型）
+            */
+
+            function person(name,age){
+                this.name = name;
+                this.age = age;
+            }
+            person.prototype.playBaseketball=function(){
+                alert("小贱贱和小涛涛都喜欢打篮球");
+            }
+            var p7= new person("小涛涛",24);
+            console.log(p7.name);//小涛涛
+            console.log(p7.prototype.playBaseketball)//小贱贱和小涛涛都喜欢打篮球
+            var p8= new person("小贱贱",24);
+            console.log(p8.name);//小贱贱
+            console.log(p8.prototype.playBaseketball)//小贱贱和小涛涛都喜欢打篮球
+        }
+	</script>
+</head>
+<body>
+
+</body>
+</html>
